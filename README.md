@@ -19,6 +19,7 @@ The goals / steps of this project are the following:
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [histodata]: ./figs/histogram.png
+[histonewdata]: ./figs/histogram_new_data.png
 [softmax]: ./figs/softmax.png
 
 ---
@@ -50,6 +51,12 @@ Below is a histogram for the training, validation, and training sets.
 * Grayscale vs no Grayscale
 
 The provided data set has a fairly uneven distribution of training samples with an entire order of magnitude difference between the classes with the smallest and largest sample sizes. This differential can cause the neural network to skew towards a particular set of classes and under-represent the classes with lower sample sizes. Since one cannot simply produce more data without going through the collection process, one method to alleviate this issue is to modify the data set by adding images with realistic augmentations. For my method to add samples to classes with lower sample counts, I chose a random image from the original set of images and rotated the image with a random angle (Gaussian distribution, mu = 0,std = 5). These images were added until the class's sample size met a defined threshold of 1500.  Ideally, more image augmentations could be used, such as changing the contrast, shifting the image, Affine transforms. Since I'm only using a single augmentation technique, the risk of overfitting to the classes with augmented images is high since it could be over-represented.
+
+After the data set augmentation, the training set augmentation histogram had a more even distribution:
+
+![alt_text][histonewdata]
+
+Only the training set had its data set augmented because augmenting the validation and training set would train the neural network match falsified data and will devalue the provided real world data. 
 
 Since the images are imported as RGB unsigned 8-bit integers, the values needed to be normalized to values between -1 and 1. I used the formula, x = (x - 127.5)/128.0 to normalize the pixel data. Grayscaling was another preprocessing option, but I found that feeding the RGB data into the CNN could created better decision making for signs with color such as the traffic sign. 
 
